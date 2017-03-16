@@ -1,3 +1,4 @@
+import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.report.config.ConfigurationException;
 import org.apache.jmeter.report.dashboard.ExportException;
 import org.apache.jmeter.save.SaveService;
@@ -15,10 +16,12 @@ public class Main {
         loadJmeterPropertiesFromFiles();
 
         HashTree projectTree = SimpleProject.create();
-        String jmeterProjectFileName = "simpleProject_generated.jmx";
-        saveAsJmxFile(projectTree, jmeterProjectFileName); //you can run this with jmeter command and generate Html report
+
+        saveAsJmxFile(projectTree, SimpleProject.FILE_NAME);
+
         System.out.println("Now you can execute the project and get Html report by command (do not try open it in GUI):");
-        System.out.println("rm -r results; rm log.jlt;\njmeter -n -e -o results -l log.jlt -t " + jmeterProjectFileName +  " && ls results/index.html");
+        System.out.println("rm -r results; rm log.jlt;");
+        System.out.println("jmeter -n -e -o results -l log.jlt -t " + SimpleProject.FILE_NAME +  " && ls results/index.html");
 
 //        StandardJMeterEngine jm = new StandardJMeterEngine();
 //        jm.configure(projectTree);

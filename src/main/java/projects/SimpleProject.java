@@ -12,6 +12,7 @@ import static helpers.ProjectHelper.*;
 
 public class SimpleProject {
 
+    public static final String FILE_NAME = "simpleProject_generated.jmx";
     public static final String GOOGLE_COM = "www.google.com";
     public static final int PORT = 80;
 
