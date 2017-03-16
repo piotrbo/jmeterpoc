@@ -1,6 +1,7 @@
 package helpers;
 
 import org.apache.jmeter.config.Arguments;
+import org.apache.jmeter.control.IfController;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
 import org.apache.jmeter.testelement.TestElement;
@@ -23,6 +24,17 @@ public class ProjectHelper {
         loopCtrl.setLoops(loops);
         loopCtrl.setFirst(true);
         return enhanceWithGuiClass(loopCtrl);
+    }
+
+    /**
+     *
+     * @param condition This is a place where I understood JMeter Java API is weak...
+     *                  We cannot pass Java code for a simple if condition. The condition is in javascript!
+     * @return
+     */
+    public static IfController createIfController(String condition) {
+        IfController ifController = new IfController(condition);
+        return ifController;
     }
 
     public static SetupThreadGroup createSetupThreadGroup(LoopController loopCtrl, int numThreads, int rampUp) {

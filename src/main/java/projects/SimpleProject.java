@@ -1,5 +1,6 @@
 package projects;
 
+import org.apache.jmeter.control.IfController;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
 import org.apache.jmeter.testelement.TestPlan;
@@ -22,6 +23,7 @@ public class SimpleProject {
 
         HTTPSampler googleGetSampler = createHttpSampler("GET", GOOGLE_COM, PORT, "/");
         LoopController loopCtrl = createLoopController(1);
+//        IfController ifController = createIfController("");
         loopCtrl.addTestElement(googleGetSampler);
         SetupThreadGroup setupThreadGroup = createSetupThreadGroup(loopCtrl, 1, 1);
         TestPlan testPlan = createTestPlan("Simple Test Plan");
