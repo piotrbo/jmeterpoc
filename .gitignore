@@ -3,3 +3,9 @@ results
 target
 jmeter.log
 log.jlt
+
+# Eclipse
+/.classpath
+/.project
+/.settings/
+/simpleProject_generated.jmx

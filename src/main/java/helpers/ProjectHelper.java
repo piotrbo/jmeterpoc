@@ -1,14 +1,32 @@
 package helpers;
 
+import java.util.Map;
+
+import org.apache.commons.collections4.map.HashedMap;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.control.IfController;
 import org.apache.jmeter.control.LoopController;
+import org.apache.jmeter.control.gui.TestPlanGui;
 import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.testelement.TestPlan;
+import org.apache.jmeter.testelement.property.StringProperty;
 import org.apache.jmeter.threads.SetupThreadGroup;
+import org.apache.jmeter.threads.gui.SetupThreadGroupGui;
 
 public class ProjectHelper {
+	
+	private static Map<String, String> GUI_CLASS_MAP;
+	static {
+		GUI_CLASS_MAP = new HashedMap<String, String>();
+		GUI_CLASS_MAP.put(TestPlan.class.getName(), TestPlanGui.class.getName());
+		GUI_CLASS_MAP.put(HTTPSampler.class.getName(), " ");
+		GUI_CLASS_MAP.put(LoopController.class.getName(), " ");
+		GUI_CLASS_MAP.put(IfController.class.getName(), " ");
+		GUI_CLASS_MAP.put(SetupThreadGroup.class.getName(), SetupThreadGroupGui.class.getName());
+		// TODO: maso, 2018: submit other types
+	}
+	
     public static HTTPSampler createHttpSampler(String method, String domain, int port, String path) {
         HTTPSampler googleGetSampler = new HTTPSampler();
         googleGetSampler.setDomain(domain);
@@ -64,7 +82,20 @@ public class ProjectHelper {
      * @return
      */
     public static <T extends TestElement> T enhanceWithGuiClass(T testElement) {
-        testElement.setProperty(TestElement.GUI_CLASS, " "/*testElement.getClass().getName()+"Gui"*/);
+    	testElement.setProperty(new StringProperty(TestElement.GUI_CLASS, guiCLassOf(testElement.getClass().getName())));
+        testElement.setProperty(new StringProperty(TestElement.TEST_CLASS, testElement.getClass().getName()));
         return testElement;
     }
+
+    /**
+     * Maps class name into the GUI class name.
+     * @param className
+     * @return
+     */
+	private static String guiCLassOf(String className) {
+		if(GUI_CLASS_MAP.containsKey(className)) {
+			return GUI_CLASS_MAP.get(className);
+		}
+		return " ";
+	}
 }
